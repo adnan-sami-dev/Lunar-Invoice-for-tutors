@@ -1,26 +1,55 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #eee5bf;
+  --secondary-background: #adc178;
+  --primary-text: #111d13;
+
+  --sidebar-hover: #90a955;
+  --sidebar-active: #4f772d;
+
+  --text-active: #f0ead2;
+  --upcoming-meeting-bg: #c9b1bd;
+  --upcoming-meeting-bg-hover: #a9959f;
+  --create-join-buttons: #c1bcac;
+  --create-join-buttons-hover: #9d998b;
+
 }
 
 @theme inline {
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-secondary-background: var(--secondary-background);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-primary-text: var(--primary-text);
+
+  --color-sidebar-active: var(--sidebar-active);
+  --color-sidebar-hover: var(--sidebar-hover);
+
+  --color-text-active: var(--text-active);
+  --color-upcoming-meeting-bg: var(--upcoming-meeting-bg);
+  --color-create-join-buttons: var(--create-join-buttons);
+
+  --color-upcoming-meeting-bg-hover: var(--upcoming-meeting-bg-hover);
+  --color-create-join-buttons-hover: var(--create-join-buttons-hover);
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--primary-text);
+}
+
+/* Dark mode override when class is applied */
+html.dark {
+  --background: #020202;
+  --secondary-background: #1f2421;
+  --primary-text: #d8f3dc;
+  --sidebar-hover: #656d4a;
+  --sidebar-active: #a4ac86;
+  --text-active: #111d13;
+
+  --upcoming-meeting-bg: #846b6a;
+  --upcoming-meeting-bg-hover: #675353;
+
+  --create-join-buttons: #8f8073;
+  --create-join-buttons-hover: #72665b;
 }
