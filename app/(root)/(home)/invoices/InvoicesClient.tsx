@@ -40,6 +40,7 @@ const InvoicesClient = ({invoices, students} : {
         </section>
 
         {/* Invoices List */}
+        {/* see and delete invoices + see how many days overdue + send manual reminders */}
         <section>
 
         </section>
