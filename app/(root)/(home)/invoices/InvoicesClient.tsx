@@ -11,6 +11,8 @@ type Invoice = {
     status : string;
     first_name : string;
     last_name : string;
+    due_date: string;
+    student_id: string;
 }
 
 type Student = {
@@ -24,8 +26,9 @@ const InvoicesClient = ({invoices, students} : {
     students: Student[];
 }) => {
 
-  console.log(invoices)
-  console.log(students)
+  const handleDelete = () => {
+    // function to delete an invoice permanently + show a confirmation dialog before doing so ...
+  }
 
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -42,7 +45,36 @@ const InvoicesClient = ({invoices, students} : {
         {/* Invoices List */}
         {/* see and delete invoices + see how many days overdue + send manual reminders */}
         <section>
+            {
+                invoices.length === 0 ? (
+                    <p>
+                        No Invoices yet. Create your first one!
+                    </p>
+                ) : (
+                    <div>
+                        {
+                            invoices.map( (invoice) => (
+                                <div key={invoice.id} >
+                                    <h1>{invoice.amount_owing}</h1>
+                                    <span>{invoice.due_date}</span>
 
+                                    <div>
+                                        <span>
+                                            {invoice.first_name}
+                                            {invoice.last_name}
+                                        </span>
+                                        <span>{invoice.student_id}</span>
+                                    </div>
+
+                                    <button onClick={handleDelete}>
+                                        Delete
+                                    </button>
+                                </div>
+                            ))
+                        }
+                    </div>
+                )
+            }
         </section>
 
 

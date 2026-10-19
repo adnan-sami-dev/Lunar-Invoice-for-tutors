@@ -6,19 +6,21 @@ import InvoicesClient from "./InvoicesClient"
 import { sql } from "@/lib/db"
 
 type Invoice = {
-  id: string
-  amount_owing: number
-  description: string
-  created_at: string
-  status: string
-  first_name: string
-  last_name: string
+  id: string;
+  amount_owing: number;
+  description: string;
+  created_at: string;
+  status: string;
+  due_date: string;
+  first_name: string;
+  last_name: string;
+  student_id: string;
 }
 
 type Student = {
-  id: string
-  first_name: string
-  last_name: string
+  id: string;
+  first_name: string;
+  last_name: string;
 }
 
 const Invoices = async() => {
@@ -35,8 +37,10 @@ const Invoices = async() => {
       i.invoice_description as description,
       i.created_at,
       i.status,
+      i.due_date,
       s.first_name,
-      s.last_name
+      s.last_name,
+      s.id
     from
       invoices as i
     join
