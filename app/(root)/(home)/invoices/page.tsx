@@ -14,13 +14,14 @@ type Invoice = {
   due_date: string;
   first_name: string;
   last_name: string;
-  student_id: string;
+  email: string;
 }
 
 type Student = {
   id: string;
   first_name: string;
   last_name: string;
+  email: string;
 }
 
 const Invoices = async() => {
@@ -40,7 +41,7 @@ const Invoices = async() => {
       i.due_date,
       s.first_name,
       s.last_name,
-      s.id
+      s.email
     from
       invoices as i
     join

@@ -12,13 +12,14 @@ type Invoice = {
     first_name : string;
     last_name : string;
     due_date: string;
-    student_id: string;
+    email: string;
 }
 
 type Student = {
     id : string;
     first_name : string;
     last_name : string;
+    email : string;
 }
 
 const InvoicesClient = ({invoices, students} : {
@@ -28,6 +29,10 @@ const InvoicesClient = ({invoices, students} : {
 
   const handleDelete = () => {
     // function to delete an invoice permanently + show a confirmation dialog before doing so ...
+  }
+
+  const markAsPaid = () => {
+    
   }
 
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -63,12 +68,17 @@ const InvoicesClient = ({invoices, students} : {
                                             {invoice.first_name}
                                             {invoice.last_name}
                                         </span>
-                                        <span>{invoice.student_id}</span>
+                                        <span>{invoice.email}</span>
                                     </div>
 
-                                    <button onClick={handleDelete}>
-                                        Delete
-                                    </button>
+                                    <div>
+                                        <button onClick={markAsPaid}>
+                                            Mark as Paid
+                                        </button>
+                                        <button onClick={handleDelete}>
+                                            Delete
+                                        </button>
+                                    </div>
                                 </div>
                             ))
                         }
