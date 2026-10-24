@@ -89,3 +89,49 @@ export async function addStudent(formData : FormData) {
         }
     }
 }
+
+export async function removeStudent(id: string) {
+
+    // check if user is valid
+    const {userId} = await auth()
+    if (!userId) {
+        return {
+            success: false,
+            errors: {
+                _form: 'Unauthorised'
+            }
+        }
+    }
+
+    try {  
+        // only delete if student belongs to this tutor
+        const studentDeleted = await sql`
+            delete from students
+            where id = ${id} and tutor_id = ${userId}
+            returning id
+        `
+
+        if (studentDeleted.length === 0) {
+            return {
+                success: false,
+                errors: {
+                    _form: 'Student not found!'
+                }
+            }
+        }
+
+        revalidatePath('/home/students')
+        return {
+            success: true
+        }
+
+    } catch(error) {
+        console.error('Failed to delete student: ', error)
+        return {
+            success: false,
+            errors: {
+                _form: 'Something went wrong!'
+            }
+        }
+    }
+}   
