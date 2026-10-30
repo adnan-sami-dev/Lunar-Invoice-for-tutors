@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { removeStudent } from "@/actions/students";
+import CreateStudentModal from "@/components/CreateStudentModal";
 
 type Student = {
     id: string;
@@ -12,7 +13,7 @@ type Student = {
 }
 
 const StudentsClient = ( {students} : {students : Student[]} ) => {
-    const [deletingId, setDeletingId] = useState<string | null>(null)
+    const [isStudentModalOpen, setIsStudentModalOpen] = useState(false)
 
     const handleRemove = async(id: string, firstName: string, lastName: string) => {
         // confirmation dialog
@@ -23,9 +24,7 @@ const StudentsClient = ( {students} : {students : Student[]} ) => {
         if (!confirm) return
 
         // removal logic : call upon removeStudent function from server actions - students.ts
-        setDeletingId(id)
-        const result = await removeStudent(deletingId as string)
-        setDeletingId(null)
+        const result = await removeStudent(id)
 
         if (!result.success) {
             alert(result.errors?._form || 'Failed to remove student')
@@ -38,7 +37,9 @@ const StudentsClient = ( {students} : {students : Student[]} ) => {
             {/* Header */}
             <section>
                 <h1>Students</h1>
-                <button>
+                <button onClick={() => setIsStudentModalOpen(true)} 
+                    className = 'cursor-pointer'
+                >
                     + New Student
                 </button>
             </section>
@@ -67,7 +68,12 @@ const StudentsClient = ( {students} : {students : Student[]} ) => {
                 }
             </section>
 
-
+            {/* Create Student Modal */}
+            {
+                isStudentModalOpen && (
+                    <CreateStudentModal onClose = {() => setIsStudentModalOpen(false)} />
+                )
+            }
         </div>
     )
 } 

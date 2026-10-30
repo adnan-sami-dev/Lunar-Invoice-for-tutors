@@ -106,7 +106,7 @@ const CreateInvoiceModal = ({students, onClose} : {
                     {/* Choose a student - required */}
                     <div className='flex flex-col gap-2'>
                         <label className='text-gray-500'>Student</label>
-                        <select name='student selection' required 
+                        <select name='studentId' required 
                             className='w-full rounded-lg bg-black/10 p-2 text-sm max-sm:text-xs'>
                             <option value=''>
                                 Select a student
@@ -179,7 +179,9 @@ const CreateInvoiceModal = ({students, onClose} : {
                         </button>
                         {/* Submit button */}
                         <button type='submit' className = 'bg-slate-400 hover:bg-slate-500 \
-                            transition-colors duration-300 text-black px-4 py-2 rounded-lg cursor-pointer'>
+                            transition-colors duration-300 text-black px-4 py-2 rounded-lg cursor-pointer \
+                            disabled:opacity-50 disabled:pointer-events-none'
+                            disabled={isSubmitting}>
                             Submit
                         </button>
                     </div>

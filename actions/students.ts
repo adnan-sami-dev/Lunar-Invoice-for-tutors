@@ -63,6 +63,7 @@ export async function addStudent(formData : FormData) {
         }
     }
 
+
     // once everything is checked, update the DB
     try {
         await sql`

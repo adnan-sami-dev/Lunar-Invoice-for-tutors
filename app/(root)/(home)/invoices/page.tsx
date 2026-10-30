@@ -60,9 +60,7 @@ const Invoices = async() => {
 
 
   return (
-    <InvoicesClient 
-      invoices = {invoices} 
-      students = {students} />    // client-side
+    <InvoicesClient invoices = {invoices} students = {students} />
   )
 }
 

@@ -4,12 +4,16 @@ import { redirect } from "next/navigation"
 import { auth } from "@clerk/nextjs/server";
 import NavBar from "@/components/NavBar";
 import SideBar from "@/components/SideBar";
+import { ensureTutor } from "@/lib/ensure-tutor";
 
 const HomeLayout = async ({children}: {children: ReactNode}) => {
 
     const clerkAuth = await auth()
+    const tutorId = await ensureTutor()     // having in layout ensures the check happens upon every navigation
+
     // If no active session/user, redirect to sign-in
-    if (!clerkAuth.userId) redirect('/sign-in')
+    if (!clerkAuth.userId || !tutorId) redirect('/sign-in')
+
 
     return (
     <main className='relative'>

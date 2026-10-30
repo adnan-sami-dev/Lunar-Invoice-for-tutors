@@ -24,4 +24,9 @@ export const sidebarLinks = [
         icon: IoMdAdd,
         route: '/invoices'
     },
+    {
+        label: 'Students',
+        icon: IoMdAdd,
+        route: '/students'
+    },
 ]

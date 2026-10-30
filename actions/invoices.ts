@@ -4,6 +4,7 @@
 import {auth} from '@clerk/nextjs/server'
 import { sql } from '@/lib/db'
 import { revalidatePath } from 'next/cache'
+import { useUser } from '@clerk/nextjs'
 
 
 export const CreateInvoice = async(formData : FormData) => {
@@ -11,7 +12,9 @@ export const CreateInvoice = async(formData : FormData) => {
 
 
     // verify user is logged in
-    const userId = await auth()
+    const user = await auth()
+    const userId = user.userId
+    console.log(userId)
     if (!userId) {
         return {
             success: false,
@@ -76,7 +79,7 @@ export const CreateInvoice = async(formData : FormData) => {
     // once input is okay, verify if the student belongs to this tutor
     const studentCheck = await sql`
         select id from students
-        where id = ${studentId} and tutor_id = ${userId}
+        where tutor_id = ${userId}
     `
 
     if (studentCheck.length === 0) {

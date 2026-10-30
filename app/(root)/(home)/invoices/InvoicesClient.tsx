@@ -61,7 +61,7 @@ const InvoicesClient = ({invoices, students} : {
                             invoices.map( (invoice) => (
                                 <div key={invoice.id} >
                                     <h1>{invoice.amount_owing}</h1>
-                                    <span>{invoice.due_date}</span>
+                                    <span>{new Date(invoice.due_date).toLocaleDateString()}</span>
 
                                     <div>
                                         <span>
