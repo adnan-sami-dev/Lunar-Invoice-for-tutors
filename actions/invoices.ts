@@ -7,7 +7,7 @@ import { revalidatePath } from 'next/cache'
 import { useUser } from '@clerk/nextjs'
 
 
-export const CreateInvoice = async(formData : FormData) => {
+export const createInvoice = async(formData : FormData) => {
 
 
 
@@ -115,6 +115,60 @@ export const CreateInvoice = async(formData : FormData) => {
         return {
             success : false,
             errors : {_form : 'Something went wrong!'}
+        }
+    }
+}
+
+export async function markAsPaid(invoiceId: string) {
+    /*  
+        processes invoice as marked
+        returns success and errors (if any)
+    */
+
+    // validate user id exists
+    const {userId} = await auth()
+    if (!userId) return {
+        success: false,
+        errors: {
+            _form: 'Unauthorised!'
+        }
+    }
+
+    // update db
+    try {
+        // 1| sql query
+        const result = await sql`
+            update invoices
+            set status = 'paid', paid_at = now()
+            where id=${invoiceId} and tutor_id=${userId}
+            returning id
+        `
+
+        // 2| error - return success as false + error
+        if (result.length === 0) {
+            return {
+                success: false,
+                errors: {
+                    _form: 'Invoice not found'
+                }
+            }
+        }
+
+        // 3| redirect path
+        revalidatePath('/home/invoices')
+
+        // 4| no errors - return success as true
+        return {
+            success: true
+        }
+
+    } catch(err) {
+        console.error('Failed to mark invoice as paid: ', err)
+        return {
+            success: false,
+            errors: {
+                _form: 'Oops! Something went wrong.'
+            }
         }
     }
 }

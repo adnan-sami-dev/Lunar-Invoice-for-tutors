@@ -1,7 +1,7 @@
 'use client'
 
 import {useState, useEffect} from 'react'
-import { CreateInvoice } from '@/actions/invoices'
+import { createInvoice } from '@/actions/invoices'
 
 
 type Student = {
@@ -70,7 +70,7 @@ const CreateInvoiceModal = ({students, onClose} : {
         setIsSubmitting(true)           // -> disables submit button : prevents repeated submission clicks
         setErrors({})                   // -> refreshes errors state upon new submission request
 
-        const result = await CreateInvoice(formData)        // using custom server action to process form inputs
+        const result = await createInvoice(formData)        // using custom server action to process form inputs
 
         if (result?.success) {                              // recall : result is a returned object with first key as 'success'
                                                             // and second key as 'errors' if any were created

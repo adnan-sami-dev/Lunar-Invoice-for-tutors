@@ -27,12 +27,12 @@ const InvoicesClient = ({invoices, students} : {
     students: Student[];
 }) => {
 
-  const handleDelete = () => {
+  const handleDelete = (id: string) => {
     // function to delete an invoice permanently + show a confirmation dialog before doing so ...
   }
 
-  const markAsPaid = () => {
-    
+  const markAsPaid = (id: string) => {
+    // function to mark an invoice as paid
   }
 
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -72,10 +72,10 @@ const InvoicesClient = ({invoices, students} : {
                                     </div>
 
                                     <div>
-                                        <button onClick={markAsPaid}>
+                                        <button onClick={() => markAsPaid(invoice.id)}>
                                             Mark as Paid
                                         </button>
-                                        <button onClick={handleDelete}>
+                                        <button onClick={() => handleDelete(invoice.id)}>
                                             Delete
                                         </button>
                                     </div>
