@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import CreateInvoiceModal from "@/components/CreateInvoiceModal";
+import { deleteInvoice, markAsPaid } from "@/actions/invoices";
 
 type Invoice = {
     id : string;
@@ -26,14 +27,6 @@ const InvoicesClient = ({invoices, students} : {
     invoices: Invoice[]; 
     students: Student[];
 }) => {
-
-  const handleDelete = (id: string) => {
-    // function to delete an invoice permanently + show a confirmation dialog before doing so ...
-  }
-
-  const markAsPaid = (id: string) => {
-    // function to mark an invoice as paid
-  }
 
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -61,6 +54,7 @@ const InvoicesClient = ({invoices, students} : {
                             invoices.map( (invoice) => (
                                 <div key={invoice.id} >
                                     <h1>{invoice.amount_owing}</h1>
+                                    <span>{invoice.status}</span>
                                     <span>{new Date(invoice.due_date).toLocaleDateString()}</span>
 
                                     <div>
@@ -75,7 +69,7 @@ const InvoicesClient = ({invoices, students} : {
                                         <button onClick={() => markAsPaid(invoice.id)}>
                                             Mark as Paid
                                         </button>
-                                        <button onClick={() => handleDelete(invoice.id)}>
+                                        <button onClick={() => deleteInvoice(invoice.id)}>
                                             Delete
                                         </button>
                                     </div>

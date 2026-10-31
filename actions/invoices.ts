@@ -125,7 +125,7 @@ export async function markAsPaid(invoiceId: string) {
         returns success and errors (if any)
     */
 
-    // validate user id exists
+    // verify user exists
     const {userId} = await auth()
     if (!userId) return {
         success: false,
@@ -171,4 +171,54 @@ export async function markAsPaid(invoiceId: string) {
             }
         }
     }
+}
+
+export async function deleteInvoice(invoiceId: string) {
+    // verify user
+    const {userId} = await auth()
+    if (!userId) return {
+        success: false,
+        errors: {
+            _form: 'Unauthorised!'
+        }
+    }
+
+    // update the db
+    try {
+        // 1| sql query
+        const result = await sql`
+        delete from invoices
+        where id = ${invoiceId} and tutor_id = ${userId}
+        returning id
+        `
+
+        // 2| error - return success as false + error
+        if (result.length === 0) {
+            return {
+                success: false,
+                errors: {
+                    _form: 'Invoice not found'
+                }
+            }
+        }
+
+        // 3| redirect path
+        revalidatePath('/home/invoices')
+
+        // 4| no errors - return success as true
+        return {
+            success: true
+        }
+
+    } catch(err) {
+        console.error('Failed to delete invoice: ', err)
+        return {
+            success: false,
+            errors: {
+                _form: 'Oops! Something went wrong.'
+            }
+        }        
+    }
+
+
 }
