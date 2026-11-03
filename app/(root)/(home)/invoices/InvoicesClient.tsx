@@ -29,6 +29,17 @@ const InvoicesClient = ({invoices, students} : {
 }) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [processingId, setProcessingId] = useState<string | null>(null);
+
+  const handleMarkAsPaid = async(invoiceId: string) => {
+        setProcessingId(invoiceId);           // Mark this invoice as "in progress"
+        const result = await markAsPaid(invoiceId);
+        setProcessingId(null);                // Clear it when done
+
+        if (!result.success) {
+            alert(result.errors?._form || 'Failed to mark as paid');
+        }
+  }
 
   return (
     <div>
@@ -83,9 +94,12 @@ const InvoicesClient = ({invoices, students} : {
                                     </div>
 
                                     <div className='flex max-sm:flex-col flex-row items-center justify-center gap-2'>
-                                        <button onClick={() => markAsPaid(invoice.id)}
+                                        <button onClick={() => handleMarkAsPaid(invoice.id)}
                                             className='bg-gray-400 hover:bg-gray-500 text-sm \
-                                            transition-colors duration-300 px-4 py-2 rounded-lg cursor-pointer'>
+                                            transition-colors duration-300 px-4 py-2 rounded-lg cursor-pointer \
+                                            disabled:opacity-50 disabled:pointer-events-none'
+                                            disabled={invoice.status !== 'pending' || processingId === invoice.id}
+                                            >
                                             Mark as Paid
                                         </button>
                                         <button onClick={() => deleteInvoice(invoice.id)}
