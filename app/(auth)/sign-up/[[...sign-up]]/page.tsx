@@ -1,4 +1,5 @@
 'use client'
+export const instant = false;
 
 import { SignUp } from "@clerk/nextjs";
 

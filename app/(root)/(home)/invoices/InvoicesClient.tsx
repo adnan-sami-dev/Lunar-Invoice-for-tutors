@@ -33,10 +33,12 @@ const InvoicesClient = ({invoices, students} : {
   return (
     <div>
         {/* Header */}
-        <section>
-            <h1>Invoices</h1>
-            <button onClick = {() => setIsModalOpen(true)}>
-                + Invoice
+        <section className='flex flex-col lg:flex-row justify-between items-center gap-5 mb-10'>
+            <h1 className='text-4xl md:text-5xl font-bold'>Invoices</h1>
+            <button onClick = {() => setIsModalOpen(true)}
+                className = 'cursor-pointer bg-slate-400 rounded-2xl px-4 py-2 \
+                 hover:bg-slate-500 transition-colors duration-300'>
+                + 
             </button>
         </section>
 
@@ -49,27 +51,46 @@ const InvoicesClient = ({invoices, students} : {
                         No Invoices yet. Create your first one!
                     </p>
                 ) : (
-                    <div>
+                    <div className='grid grid-cols-3 max-sm:grid-cols-1 gap-3'>
                         {
                             invoices.map( (invoice) => (
-                                <div key={invoice.id} >
-                                    <h1>{invoice.amount_owing}</h1>
-                                    <span>{invoice.status}</span>
-                                    <span>{new Date(invoice.due_date).toLocaleDateString()}</span>
+                                <div key={invoice.id} className='flex flex-col justify-center items-center bg-create-join-buttons \
+                                    rounded-2xl py-10 px-5 gap-10'>
+                                    <h1 className='text-4xl font-bold'>${invoice.amount_owing}</h1>
 
-                                    <div>
-                                        <span>
-                                            {invoice.first_name}
-                                            {invoice.last_name}
-                                        </span>
-                                        <span>{invoice.email}</span>
+                                    <div className='flex flex-col items-center justify-center'>
+                                        <div className='flex flex-row gap-2 font-bold text-lg'>
+                                            <span>
+                                                {invoice.first_name}
+                                            </span>
+                                            <span>
+                                                {invoice.last_name}
+                                            </span>
+                                        </div>
+                                        <span className='text-sm italic'>{invoice.email}</span>
                                     </div>
 
-                                    <div>
-                                        <button onClick={() => markAsPaid(invoice.id)}>
+                                    <div className='flex flex-col items-center justify-center gap-2'>
+                                        <span className={`rounded-2xl px-3 py-1 border-2
+                                        ${invoice.status === 'pending' ? 'bg-red-400 border-red-800' : 'bg-amber-500 border-amber-600'}`}>
+                                            {invoice.status}
+                                        </span>
+                                        <span className='max-sm:text-xs text-sm opacity-80'>Due : {new Date(invoice.due_date).toLocaleDateString('en-US', {
+                                            year: 'numeric',
+                                            month: 'short',
+                                            day: 'numeric'
+                                        })}</span>
+                                    </div>
+
+                                    <div className='flex max-sm:flex-col flex-row items-center justify-center gap-2'>
+                                        <button onClick={() => markAsPaid(invoice.id)}
+                                            className='bg-gray-400 hover:bg-gray-500 text-sm \
+                                            transition-colors duration-300 px-4 py-2 rounded-lg cursor-pointer'>
                                             Mark as Paid
                                         </button>
-                                        <button onClick={() => deleteInvoice(invoice.id)}>
+                                        <button onClick={() => deleteInvoice(invoice.id)}
+                                            className='bg-gray-400 hover:bg-gray-500 text-sm \
+                                            transition-colors duration-300 px-4 py-2 rounded-lg cursor-pointer'>
                                             Delete
                                         </button>
                                     </div>
